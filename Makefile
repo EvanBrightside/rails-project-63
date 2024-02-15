@@ -5,6 +5,6 @@ lint: # запустить линтер
 	bundle exec rubocop
 
 test: # запустить тесты
-	rake test
+	bundle exec rake test
 
 .PHONY: test
