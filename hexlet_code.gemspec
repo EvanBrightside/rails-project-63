@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email = ['xvanx84@gmail.com']
 
   spec.summary = 'Form Generator – DSL that makes it easy to generate forms.'
-  spec.description = 'This library takes care of tasks that would normally require writing a lot of boilerplate code.'
+  spec.description = 'This gem takes care of tasks that would normally require writing a lot of boilerplate code.'
   spec.homepage = 'https://github.com/EvanBrightside/rails-project-63'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 3.0.0'
