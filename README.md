@@ -1,7 +1,6 @@
 # HexletCode
 
 [![CI status](https://github.com/EvanBrightside/rails-project-63/actions/workflows/main.yml/badge.svg)](https://github.com/EvanBrightside/rails-project-63/actions/workflows/main.yml)
-
 [![Hexlet Check](https://github.com/EvanBrightside/rails-project-63/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/EvanBrightside/rails-project-63/actions/workflows/hexlet-check.yml)
 
 Form Generator – DSL that makes it easy to generate forms.
