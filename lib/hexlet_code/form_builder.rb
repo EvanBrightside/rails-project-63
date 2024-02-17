@@ -15,20 +15,20 @@ module HexletCode
       @fields << Tag.build('label', for: name) { name.capitalize }
       return textarea(name, remove_as_option(options)) if options[:as] == :text
 
-      default_attributes = { name: name, type: 'text' }
+      default_attributes = { name:, type: 'text' }
       check_errors(name)
       default_attributes[:value] = @data[name]
       @fields << Tag.build('input', **default_attributes, **options)
     end
 
     def textarea(name, options = {})
-      default_attributes = { name: name, cols: 20, rows: 40 }
+      default_attributes = { name:, cols: 20, rows: 40 }
       default_attributes.merge!(options)
       @fields << Tag.build('textarea', **default_attributes) { @data[name] }
     end
 
     def submit(value = 'Save')
-      @fields << Tag.build('input', type: 'submit', value: value)
+      @fields << Tag.build('input', type: 'submit', value:)
     end
 
     def build
