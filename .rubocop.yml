@@ -15,6 +15,3 @@ Layout/LineLength:
 
 Style/Documentation:
   Enabled: false
-
-Style/SymbolProc:
-  Enabled: false
