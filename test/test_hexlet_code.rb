@@ -12,6 +12,7 @@ class TestHexletCode < Minitest::Test
     @user_with_attributes = fixture_load('user_with_attributes.html')
     @user_with_overridden_values = fixture_load('user_with_overridden_values.html')
     @user_creation_with_submit = fixture_load('user_creation_with_submit.html')
+    @user_creation_with_labels = fixture_load('user_creation_with_labels.html')
   end
 
   def test_that_it_has_a_version_number
@@ -54,6 +55,16 @@ class TestHexletCode < Minitest::Test
       f.submit 'Wow'
     end
     assert_equal html, @user_creation_with_submit
+  end
+
+  def test_from_wiht_labels
+    user = User.new job: 'hexlet'
+    html = HexletCode.form_for user do |f|
+      f.input :name
+      f.input :job
+      f.submit
+    end
+    assert_equal html, @user_creation_with_labels
   end
 
   def test_that_it_return_error

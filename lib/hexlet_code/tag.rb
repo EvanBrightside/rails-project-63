@@ -8,28 +8,25 @@ module HexletCode
       result = "<#{tag_name}"
       attributes.each { |attr_name, attr_value| result << " #{attr_name}=\"#{attr_value}\"" } if attributes.any?
       result << '>'
-      body_tag(yield, result) if block_given?
-      result << end_tag(tag_name) if block_given? || !SINGLE_TAGS.include?(tag_name)
+      body_tag(tag_name, yield, result) if block_given?
+      result << "</#{tag_name}>" if block_given? || !SINGLE_TAGS.include?(tag_name)
       result
     end
 
     class << self
       private
 
-      def body_tag(body, result)
+      def body_tag(tag_name, body, result)
         case body
         when String
           result << body.to_s
         when Array
           body.each { |field| result << "\n  #{field}" }
         when Symbol
-          result << "\n  #{body}"
+          result_tag = tag_name == 'label' ? body.to_s : "\n  #{body}"
+          result << result_tag
         end
         result
-      end
-
-      def end_tag(tag_name)
-        tag_name == 'form' ? "\n</#{tag_name}>" : "</#{tag_name}>"
       end
     end
   end

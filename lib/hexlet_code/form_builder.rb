@@ -4,9 +4,8 @@ module HexletCode
   autoload(:Tag, 'hexlet_code/tag.rb')
 
   class FormBuilder
-    def initialize(data, options)
+    def initialize(data)
       @data = data
-      @url = options[:url] || '#'
       @fields = []
 
       yield self if block_given?
@@ -16,13 +15,9 @@ module HexletCode
       return textarea(name, remove_as_option(options)) if options[:as] == :text
 
       default_attributes = { name: name, type: 'text' }
-      begin
-        @data.public_send(name)
-      rescue NoMethodError => e
-        puts "No method error: #{e}"
-        raise e
-      end
-      default_attributes[:value] = @data[name] unless @data[name].nil? || @data[name].empty?
+      check_errors(name)
+      default_attributes[:value] = @data[name]
+      @fields << Tag.build('label', for: name) { name.capitalize }
       @fields << Tag.build('input', **default_attributes, **options)
     end
 
@@ -37,10 +32,17 @@ module HexletCode
     end
 
     def build
-      Tag.build('form', action: @url, method: 'post') { @fields }
+      @fields
     end
 
     private
+
+    def check_errors(name)
+      @data.public_send(name)
+    rescue NoMethodError => e
+      puts "\n No method error: #{e}"
+      raise e
+    end
 
     def remove_as_option(options)
       options.except(:as)

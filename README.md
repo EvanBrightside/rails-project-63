@@ -30,6 +30,7 @@ HexletCode.form_for user, url: '#' do |f|
 end
 
 # <form action="#" method="post">
+#  <label for="job">Job</label>
 #  <textarea name="job" cols="50" rows="50">Github</textarea>
 # </form>
 
@@ -41,7 +42,9 @@ HexletCode.form_for user, url: '#' do |f|
 end
 
 # <form action="#" method="post">
-#   <input name="name" type="text">
+#   <label for="name">Name</label>
+#   <input name="name" type="text" value="">
+#   <label for="job">Job</label>
 #   <input name="job" type="text" value="Github">
 #   <input type="submit" value="Wow">
 # </form>
