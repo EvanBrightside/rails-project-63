@@ -16,7 +16,13 @@ module HexletCode
       return textarea(name, remove_as_option(options)) if options[:as] == :text
 
       default_attributes = { name: name, type: 'text' }
-      default_attributes[:value] = @data[name] if @data[name]
+      begin
+        @data.public_send(name)
+      rescue NoMethodError => e
+        puts "No method error: #{e}"
+        raise e
+      end
+      default_attributes[:value] = @data[name] unless @data[name].nil? || @data[name].empty?
       @fields << Tag.build('input', **default_attributes, **options)
     end
 
