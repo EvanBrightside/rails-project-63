@@ -79,8 +79,8 @@ class TestHexletCode < Minitest::Test
   end
 
   def test_with_submit_only
-    user = User.new job: 'hexlet'
-    html = HexletCode.form_for user, url: '/profile', method: 'get', class: 'hexlet-form' do |f|
+    user = User.new name: 'rob'
+    html = HexletCode.form_for user, url: '/profile', method: :get, class: 'hexlet-form' do |f|
       f.submit
     end
     assert_equal html, @user_creation_with_submit_only
