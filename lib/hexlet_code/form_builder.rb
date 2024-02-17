@@ -12,12 +12,12 @@ module HexletCode
     end
 
     def input(name, **options)
+      @fields << Tag.build('label', for: name) { name.capitalize }
       return textarea(name, remove_as_option(options)) if options[:as] == :text
 
       default_attributes = { name: name, type: 'text' }
       check_errors(name)
       default_attributes[:value] = @data[name]
-      @fields << Tag.build('label', for: name) { name.capitalize }
       @fields << Tag.build('input', **default_attributes, **options)
     end
 
