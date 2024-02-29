@@ -4,17 +4,26 @@ module HexletCode
   class Tag
     SINGLE_TAGS = %w[area base br col command embed hr img input keygen link meta param source track wbr].freeze
 
-    def self.build(tag_name, attributes = {})
+    def self.build(tag_name, attributes = {}, block = nil)
       result = "<#{tag_name}"
       attributes.each { |attr_name, attr_value| result << " #{attr_name}=\"#{attr_value}\"" } if attributes.any?
       result << '>'
       body_tag(tag_name, yield, result) if block_given?
-      result << "</#{tag_name}>" if block_given? || !SINGLE_TAGS.include?(tag_name)
+      content_tag(tag_name, block, result) unless SINGLE_TAGS.include?(tag_name)
       result
     end
 
     class << self
       private
+
+      def content_tag(tag_name, block, result)
+        content = if block_given?
+                    yield
+                  elsif !block.nil? && block.instance_of?(Proc)
+                    block.call
+                  end
+        result << "#{content}</#{tag_name}>"
+      end
 
       def body_tag(tag_name, body, result)
         case body

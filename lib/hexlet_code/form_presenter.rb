@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module HexletCode
-  autoload(:Tag, 'hexlet_code/tag.rb')
-
   class FormPresenter
     def initialize(form, options = {})
       @form = form
@@ -22,16 +20,14 @@ module HexletCode
     private
 
     def content
-      res = ''
-      case @form
-      when String
-        res += @form.to_s
-      when Array
-        @form.each { |field| res += "\n  #{field}" }
-      when Symbol
-        res += "\n  #{@form}"
-      end
-      res
+      result = ''
+      result += "\n"
+      result += @form.map do |node|
+        tag_params = [node.tag, node.attributes]
+        tag_params << node.block unless node.block.nil?
+        "  #{Tag.build(*tag_params)}"
+      end.join("\n")
+      result
     end
   end
 end

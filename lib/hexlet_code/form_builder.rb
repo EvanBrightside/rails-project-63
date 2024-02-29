@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'form_tags/string_tag'
+require_relative 'form_tags/text_tag'
+require_relative 'form_tags/label_tag'
+require_relative 'form_tags/submit_tag'
+
 module HexletCode
   autoload(:Tag, 'hexlet_code/tag.rb')
 
@@ -11,24 +16,25 @@ module HexletCode
       yield self if block_given?
     end
 
-    def input(name, **options)
-      @fields << Tag.build('label', for: name) { name.capitalize }
-      return textarea(name, remove_as_option(options)) if options[:as] == :text
-
-      default_attributes = { name:, type: 'text' }
-      check_errors(name)
-      default_attributes[:value] = @data[name]
-      @fields << Tag.build('input', **default_attributes, **options)
+    def label(name)
+      FormTags::LabelTag.new(name:)
     end
 
-    def textarea(name, options = {})
-      default_attributes = { name:, cols: 20, rows: 40 }
-      default_attributes.merge!(options)
-      @fields << Tag.build('textarea', **default_attributes) { @data[name] }
+    def input(name, **options)
+      input_type = options[:as] || :string
+      check_errors(name)
+      clean_attributes = { name:, value: @data[name] }.merge(options.except(:as))
+      class_name = "HexletCode::FormTags::#{input_type.capitalize}Tag"
+      tag = Object.const_get(class_name).new(clean_attributes)
+
+      @fields.push(label(name), tag)
+      tag
     end
 
     def submit(value = 'Save')
-      @fields << Tag.build('input', type: 'submit', value:)
+      tag = FormTags::SubmitTag.new(value:)
+      @fields << tag
+      tag
     end
 
     def build
@@ -42,10 +48,6 @@ module HexletCode
     rescue NoMethodError => e
       puts "\n No method error: #{e}"
       raise e
-    end
-
-    def remove_as_option(options)
-      options.except(:as)
     end
   end
 end
